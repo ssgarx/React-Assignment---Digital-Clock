@@ -1,47 +1,40 @@
-import React, { Component, useState } from "react";
+import React, { useState, useEffect } from 'react';
 import '../styles/App.css';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = this.getTime();
+        this.state = { date: new Date() };
     }
 
     componentDidMount() {
-        this.setTimer();
+        this.timerID = setInterval(
+            () => this.tick(),
+            1000
+        );
     }
+
     componentWillUnmount() {
-        clearInterval(this.interval);
+        clearInterval(this.timerID);
     }
 
-    setTimer() {
-        clearTimeout(this.timeout);
-        this.timeout = setInterval(this.updateClock.bind(this), 1000);
-    }
-
-    updateClock() {
-        this.setState(this.getTime, this.setTimer);
-    }
-
-    getTime() {
-        const currentTime = new Date();
-        return {
-            hours: currentTime.getHours(),
-            minutes: currentTime.getMinutes(),
-            seconds: currentTime.getSeconds(),
-            ampm: currentTime.getHours() >= 12 ? 'PM' : 'AM'
-        }
+    tick() {
+        this.setState({
+            date: new Date()
+        });
     }
 
     render() {
-        const { hours, minutes, seconds, ampm } = this.state;
+        let hours = this.state.date.getHours() < 12 ? this.state.date.getHours() : this.state.date.getHours() - 12;
+        hours = hours < 10 ? "0" + hours : hours;
+        let mins = this.state.date.getMinutes();
+        mins = mins < 10 ? "0" + mins : mins;
+        let secs = this.state.date.getSeconds();
+        secs = secs < 10 ? "0" + secs : secs;
+        let postFix = this.state.date.getHours() < 12 ? "AM" : "PM";
         return (
             <div className="Clock">
-                <h3 id="time">
-                    {hours == 0 ? 12 : hours > 12 ? hours - 12 : hours}:
-                    {minutes > 9 ? minutes : `0${minutes}`}:
-                    {seconds > 9 ? seconds : `0${seconds}`} {ampm}
-                </h3>
+                <h3 id="time">{hours}:{mins}:{secs} {postFix}</h3>
             </div>
         );
     }
