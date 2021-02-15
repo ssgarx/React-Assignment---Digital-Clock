@@ -16,7 +16,7 @@ class App extends React.Component {
 
     setTimer() {
         clearTimeout(this.timeout);
-        this.timeout = setTimeout(this.updateClock.bind(this), 1000);
+        this.timeout = setInterval(this.updateClock.bind(this), 1000);
     }
 
     updateClock() {
