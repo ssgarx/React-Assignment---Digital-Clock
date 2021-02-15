@@ -8,7 +8,10 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.setTimer();
+        setInterval(this.setTimer());
+    }
+    componentWillUnmount() {
+        clearInterval(this.setTimer());
     }
 
     setTimer() {
