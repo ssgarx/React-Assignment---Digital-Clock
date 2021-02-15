@@ -26,15 +26,16 @@ class App extends React.Component {
 
     render() {
         let hours = this.state.date.getHours() < 12 ? this.state.date.getHours() : this.state.date.getHours() - 12;
-        hours = hours < 10 ? "0" + hours : hours;
-        let mins = this.state.date.getMinutes();
-        mins = mins < 10 ? "0" + mins : mins;
-        let secs = this.state.date.getSeconds();
-        secs = secs < 10 ? "0" + secs : secs;
-        let postFix = this.state.date.getHours() < 12 ? "AM" : "PM";
+        let minutes = this.state.date.getMinutes();
+        let seconds = this.state.date.getSeconds();
+        let ampm = this.state.date.getHours() >= 12 ? 'PM' : 'AM';
         return (
             <div className="Clock">
-                <h3 id="time">{hours}:{mins}:{secs} {postFix}</h3>
+                <h3 id="time">
+                    {hours == 0 ? 12 : hours > 12 ? hours - 12 : hours}:
+                    {minutes > 9 ? minutes : `0${minutes}`}:
+                    {seconds > 9 ? seconds : `0${seconds}`} {ampm}
+                </h3>
             </div>
         );
     }
